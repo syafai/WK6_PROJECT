@@ -52,20 +52,20 @@ SELECT insert_newcar_func(4, 'Lamborghini', 2023, 'Urus', CURRENT_DATE, 250000.0
 ALTER TABLE newcar
 ADD COLUMN is_serviced BOOLEAN DEFAULT FALSE;
 
-CREATE OR REPLACE FUNCTION update_service_status(customer_id INTEGER)
-RETURNS VOID AS
+CREATE OR REPLACE PROCEDURE update_service_status(serviced_customer_id INTEGER)
+AS
 $$
 BEGIN
 	UPDATE newcar
 	SET is_serviced = TRUE
-	WHERE customer_id = customer_id;
+	WHERE customer_id = serviced_customer_id;
     COMMIT;
  
 END;
 $$
 LANGUAGE plpgsql;
 
-SELECT update_service_status(1);
+CALL update_service_status(1);
 
 SELECT *
 FROM newcar;
